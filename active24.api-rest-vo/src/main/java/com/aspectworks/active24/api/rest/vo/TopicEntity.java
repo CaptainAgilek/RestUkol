@@ -4,19 +4,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class TopicVO {
+public class TopicEntity {
     private String name;
     private Date dateCreated;
     private String text;
+    List<CommentVO> comments = new ArrayList<>();
 
-    public TopicVO(){
+    public TopicEntity() {
+    }
+    public TopicEntity(TopicVO topic) {
+    this.name = topic.getName();
+    this.dateCreated = topic.getDateCreated();
+    this.text = topic.getText();
+    }
 
-    }
-    public TopicVO(TopicEntity topicEntity){
-        this.name = topicEntity.getName();
-        this.dateCreated = topicEntity.getDateCreated();
-        this.text = topicEntity.getText();
-    }
     public String getName() {
         return name;
     }
@@ -39,5 +40,12 @@ public class TopicVO {
 
     public void setText(String text) {
         this.text = text;
+    }
+    public List<CommentVO> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentVO> comments) {
+        this.comments = comments;
     }
 }
