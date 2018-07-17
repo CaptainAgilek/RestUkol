@@ -35,6 +35,9 @@ public class TopicServiceImpl implements TopicServiceInterface {
     }
     @Override
     public void createTopic(TopicEntity topic) {
+        for(TopicEntity entity : topics)
+            if(entity.getName().equals(topic.getName()))
+                return;
         topic.setDateCreated(new Date());
         topics.add(topic);
     }
