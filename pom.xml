@@ -14,5 +14,4 @@
         <module>active24.api-rest</module>
         <module>active24.api-war</module>
     </modules>
-
 </project>

@@ -3,15 +3,22 @@ package com.aspectworks.active24.api.rest;
 import com.aspectworks.active24.api.rest.vo.CommentVO;
 import com.aspectworks.active24.api.rest.vo.TopicEntity;
 import com.aspectworks.active24.api.rest.vo.TopicVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.sql.SQLOutput;
 import java.util.*;
 import java.util.stream.Collectors;
-
+@Repository
 @Service
 public class TopicServiceImpl implements TopicServiceInterface {
     List<TopicEntity> topics = new ArrayList<>();
+   // @Autowired
+    //private TopicRepository tr;
+
 
     public TopicServiceImpl() {
       /* TopicEntity t = new TopicEntity();
@@ -41,6 +48,8 @@ public class TopicServiceImpl implements TopicServiceInterface {
                 return;
         topic.setDateCreated(new Date());
         topics.add(topic);
+        tr.save(topic);
+
     }
 
     @Override
