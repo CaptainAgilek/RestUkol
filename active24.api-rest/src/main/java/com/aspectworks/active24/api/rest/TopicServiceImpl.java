@@ -14,7 +14,7 @@ public class TopicServiceImpl implements TopicServiceInterface {
     List<TopicEntity> topics = new ArrayList<>();
 
     public TopicServiceImpl() {
-        TopicEntity t = new TopicEntity();
+      /* TopicEntity t = new TopicEntity();
         t.setName("Politika v CR");
         t.setText("Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi scelerisque luctus velit. Integer lacinia. Vivamus luctus egestas leo. Aenean id metus id velit ullamcorper pulvinar. Mauris tincidunt sem sed arcu. Pellentesque pretium lectus id turpis. Phasellus rhoncus. Sed convallis magna eu sem. Donec iaculis gravida nulla. Vivamus luctus egestas leo. Nullam eget nisl. Nulla non lectus sed nisl molestie malesuada. Aliquam erat volutpat. Nunc tincidunt ante vitae massa. Aenean placerat. Morbi leo mi, nonummy eget tristique non, rhoncus non leo.");
         t.setDateCreated(new Date());
@@ -32,6 +32,7 @@ public class TopicServiceImpl implements TopicServiceInterface {
         comment.setText("Kdo z politiku neopsal diplomku?");
         t.setComments(new ArrayList<CommentVO>(){{add(comment);}});
         topics.add(t);
+      */
     }
     @Override
     public void createTopic(TopicEntity topic) {
@@ -53,7 +54,7 @@ public class TopicServiceImpl implements TopicServiceInterface {
         }
     }
 
-    public List<TopicEntity> getAllTopics(String searchText, String sortBy, String sortOrder) {
+    public List<TopicEntity> getTopics(String searchText, String sortBy, String sortOrder) {
         if(sortBy == null)
             sortBy = "name"; //sorted by name by default
         if(sortBy.equals("date"))
@@ -103,31 +104,26 @@ public class TopicServiceImpl implements TopicServiceInterface {
 
     }
 
-    @Override
     public void sortTopicsAlphabeticallAsc() {
         Collections.sort(topics, (TopicEntity lhs, TopicEntity rhs)->lhs.getName().compareTo(rhs.getName()));
         System.out.println("Sorting topics by name ascending order.");
     }
 
-    @Override
     public void sortTopicsAlphabeticallDesc() {
         Collections.sort(topics, (TopicEntity lhs, TopicEntity rhs)->rhs.getName().compareTo(lhs.getName()));
         System.out.println("Sorting topics by name descending order.");
     }
 
-    @Override
     public void sortTopicsByDateAsc() {
         Collections.sort(topics, (TopicEntity lhs, TopicEntity rhs)->lhs.getDateCreated().compareTo(rhs.getDateCreated()));
         System.out.println("Sorting topics by date asc.");
     }
 
-    @Override
     public void sortTopicsByDateDesc() {
         Collections.sort(topics, (TopicEntity lhs, TopicEntity rhs)->rhs.getDateCreated().compareTo(lhs.getDateCreated()));
         System.out.println("Sorting topics by date desc.");
     }
 
-    @Override
     public List<TopicEntity> searchTopicsWithText(String text) {
         List<TopicEntity> result = new ArrayList<>();
         for(TopicEntity topic : topics)

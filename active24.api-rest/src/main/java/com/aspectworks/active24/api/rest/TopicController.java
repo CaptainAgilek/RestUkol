@@ -27,8 +27,8 @@ public class TopicController {
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public List<TopicVO> getAllTopics(@RequestParam(value = "searchText", required=false) String searchText, @RequestParam(value ="sortBy", required = false) String sortBy, @RequestParam(value = "sortOrder", required = false) String sortOrder) {
-        return topicService.getAllTopics(searchText, sortBy, sortOrder).stream().map(topic->new TopicVO(topic)).collect(Collectors.toList());
+    public List<TopicVO> getTopics(@RequestParam(value = "searchText", required=false) String searchText, @RequestParam(value ="sortBy", required = false) String sortBy, @RequestParam(value = "sortOrder", required = false) String sortOrder) {
+        return topicService.getTopics(searchText, sortBy, sortOrder).stream().map(topic->new TopicVO(topic)).collect(Collectors.toList());
     }
 
     @RequestMapping( value = "/{name}/comments", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE})
