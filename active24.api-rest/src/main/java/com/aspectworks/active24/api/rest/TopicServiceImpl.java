@@ -14,7 +14,6 @@ import java.util.*;
 public class TopicServiceImpl implements TopicServiceInterface {
     @Autowired
     private TopicRepository tr;
-    ArrayList<TopicEntity> topics = new ArrayList<>();
    // @PersistenceContext
    // EntityManager em;
 
@@ -55,7 +54,7 @@ public class TopicServiceImpl implements TopicServiceInterface {
         List<TopicEntity> result;
         if(searchText != null)
         {
-            result = searchTopicsWithText(tr.findAll(),searchText);
+            result = searchTopicsWithText(searchText);
         }
         else{
 
@@ -125,20 +124,9 @@ public class TopicServiceImpl implements TopicServiceInterface {
         return result;
     }
 
-    public List<TopicEntity> searchTopicsWithText(List<TopicEntity> list, String text) {
-        List<TopicEntity> result = new ArrayList<>();
-        if(list != null)
-            result = list;
-        ArrayList<TopicEntity> topics = (ArrayList<TopicEntity>) tr.findAll();
-        for(TopicEntity topic : topics)
-        {
-            if(topic.getText().toLowerCase().contains(text.toLowerCase()) || topic.getName().toLowerCase().contains(text.toLowerCase()))
-            {
-                result.add(topic);
-            }
-        }
+    public List<TopicEntity> searchTopicsWithText(String text) {
         System.out.println("Searching topic by text: " + text);
-        return result;
+        return tr.findByTextContaining(text);
     }
 
     @Override
