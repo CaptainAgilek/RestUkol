@@ -7,4 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public interface TopicRepository extends JpaRepository<TopicEntity,Long> {
+    //Query creation from method names
+    TopicEntity findByName(String name);
 }

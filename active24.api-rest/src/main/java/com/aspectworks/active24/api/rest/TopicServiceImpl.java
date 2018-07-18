@@ -43,19 +43,12 @@ public class TopicServiceImpl implements TopicServiceInterface {
     public void createTopic(TopicEntity topic) {
         topic.setDateCreated(new Date());
         tr.save(topic);
-       // em.persist(topic);
-        System.out.println(tr.findAll().get(0).getName());
     }
 
-    public TopicEntity findByName(List<TopicEntity> list, String name){
-       return list.stream().filter(topicEntity -> topicEntity.getName().equals(name)).findFirst().orElse(null);
-    }
     @Override
     public void deleteTopic(String name) {
-         ArrayList<TopicEntity> entities = (ArrayList<TopicEntity>) tr.findAll();
-         TopicEntity entityToDelete = findByName(entities,name);
-         tr.delete(entityToDelete);
-         System.out.println("Deleting topic with name: " + entityToDelete.getName());
+         tr.delete(tr.findByName(name));
+         System.out.println("Deleting topic with name: " + name);
     }
 
     public List<TopicEntity> getTopics(String searchText, String sortBy, String sortOrder) {
@@ -99,7 +92,7 @@ public class TopicServiceImpl implements TopicServiceInterface {
 
     @Override
     public void addCommentToTopic(String topicName, CommentVO comment) {
-        TopicEntity entity = findByName(tr.findAll(), topicName);
+        TopicEntity entity = tr.findByName(topicName);
         entity.getComments().add(comment);
         tr.save(entity);
     }
@@ -150,7 +143,7 @@ public class TopicServiceImpl implements TopicServiceInterface {
 
     @Override
     public List<CommentVO> getAllComments(String name) {
-        TopicEntity entity = findByName(tr.findAll(), name);
+        TopicEntity entity = tr.findByName(name);
         System.out.println(entity.getName());
         return entity.getComments();
 
