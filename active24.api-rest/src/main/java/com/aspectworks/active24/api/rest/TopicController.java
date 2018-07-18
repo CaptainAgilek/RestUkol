@@ -1,6 +1,5 @@
 package com.aspectworks.active24.api.rest;
 
-import com.aspectworks.active24.DBConnector;
 import com.aspectworks.active24.api.rest.vo.CommentVO;
 import com.aspectworks.active24.api.rest.vo.TopicEntity;
 import com.aspectworks.active24.api.rest.vo.TopicVO;
@@ -8,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,14 +18,6 @@ public class TopicController {
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void createTopic(@RequestBody TopicVO topic){
         TopicEntity topicEntity = new TopicEntity(topic);
-        DBConnector connector = new DBConnector();
-        try {
-            connector.Connect();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         topicService.createTopic(topicEntity);
     }
     @RequestMapping(method = RequestMethod.DELETE, value = "/{name}")
