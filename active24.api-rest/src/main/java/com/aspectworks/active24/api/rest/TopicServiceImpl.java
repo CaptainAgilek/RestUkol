@@ -6,13 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.sql.SQLOutput;
 import java.util.*;
 @Service
 public class TopicServiceImpl implements TopicServiceInterface {
-    List<TopicEntity> topics = new ArrayList<>();
     @Autowired
     private TopicRepository tr;
-
+    ArrayList<TopicEntity> topics = new ArrayList<>();
+   // @PersistenceContext
+   // EntityManager em;
 
     public TopicServiceImpl() {
       /* TopicEntity t = new TopicEntity();
@@ -37,60 +41,57 @@ public class TopicServiceImpl implements TopicServiceInterface {
     }
     @Override
     public void createTopic(TopicEntity topic) {
-        for(TopicEntity entity : topics)
-            if(entity.getName().equals(topic.getName()))
-                return;
         topic.setDateCreated(new Date());
-        topics.add(topic);
         tr.save(topic);
-
+       // em.persist(topic);
+        System.out.println(tr.findAll().get(0).getName());
     }
 
+    public TopicEntity findByName(List<TopicEntity> list, String name){
+       return list.stream().filter(topicEntity -> topicEntity.getName().equals(name)).findFirst().orElse(null);
+    }
     @Override
     public void deleteTopic(String name) {
-        for (Iterator<TopicEntity> topicIterator = topics.iterator(); topicIterator.hasNext(); ) {
-            TopicEntity topic = topicIterator.next();
-            if (topic.getName().equals(name)) {
-                topicIterator.remove();
-                System.out.println("Deleting topic with name: " + name);
-            }
-        }
+         ArrayList<TopicEntity> entities = (ArrayList<TopicEntity>) tr.findAll();
+         TopicEntity entityToDelete = findByName(entities,name);
+         tr.delete(entityToDelete);
+         System.out.println("Deleting topic with name: " + entityToDelete.getName());
     }
 
     public List<TopicEntity> getTopics(String searchText, String sortBy, String sortOrder) {
+        List<TopicEntity> result;
+        if(searchText != null)
+        {
+            result = searchTopicsWithText(tr.findAll(),searchText);
+        }
+        else{
+
+            result = tr.findAll();
+
+        }
         if(sortBy == null)
             sortBy = "name"; //sorted by name by default
         if(sortBy.equals("date"))
         {
             if(sortOrder != null) {
                 if(sortOrder.equals("asc"))
-                    sortTopicsByDateAsc();
+                    return sortTopicsByDateAsc(result);
                 else if(sortOrder.equals("desc"))
-                    sortTopicsByDateDesc();
+                    return sortTopicsByDateDesc(result);
             }
-            else sortTopicsByDateAsc();//default sort is ascending
+            else return sortTopicsByDateAsc(result);//default sort is ascending
         }
         else if(sortBy.equals("name"))
         {
             if(sortOrder != null) {
                 if (sortOrder.equals("asc"))
-                    sortTopicsAlphabeticallAsc();
+                    return sortTopicsAlphabeticallAsc(result);
                 if (sortOrder.equals("desc"))
-                    sortTopicsAlphabeticallDesc();
+                    return sortTopicsAlphabeticallDesc(result);
             }
-            else sortTopicsAlphabeticallAsc();//default sort is ascending
+            else return sortTopicsAlphabeticallAsc(result);//default sort is ascending
         }
 
-        List<TopicEntity> result = new ArrayList<>(topics.size());
-        if(searchText != null)
-        {
-            result = searchTopicsWithText(searchText);
-        }
-        else{
-
-            result = topics;
-
-        }
 
         return result;
     }
@@ -98,37 +99,44 @@ public class TopicServiceImpl implements TopicServiceInterface {
 
     @Override
     public void addCommentToTopic(String topicName, CommentVO comment) {
-        topics.forEach( topic -> {if(topic.getName().equals(topicName)) {
-            topic.getComments().add(comment);
-            System.out.println("Adding comment to topic: " + topicName);
-        }
-        }
-        );
-
+        TopicEntity entity = findByName(tr.findAll(), topicName);
+        entity.getComments().add(comment);
+        tr.save(entity);
     }
 
-    public void sortTopicsAlphabeticallAsc() {
-        Collections.sort(topics, (TopicEntity lhs, TopicEntity rhs)->lhs.getName().compareTo(rhs.getName()));
+    public List<TopicEntity> sortTopicsAlphabeticallAsc(List<TopicEntity> list) {
+        List<TopicEntity> result = list;
+        Collections.sort(result, (TopicEntity lhs, TopicEntity rhs)->lhs.getName().compareTo(rhs.getName()));
         System.out.println("Sorting topics by name ascending order.");
+        return result;
     }
 
-    public void sortTopicsAlphabeticallDesc() {
-        Collections.sort(topics, (TopicEntity lhs, TopicEntity rhs)->rhs.getName().compareTo(lhs.getName()));
+    public List<TopicEntity> sortTopicsAlphabeticallDesc(List<TopicEntity> list) {
+        List<TopicEntity> result = list;
+        Collections.sort(result, (TopicEntity lhs, TopicEntity rhs)->rhs.getName().compareTo(lhs.getName()));
         System.out.println("Sorting topics by name descending order.");
+        return result;
     }
 
-    public void sortTopicsByDateAsc() {
-        Collections.sort(topics, (TopicEntity lhs, TopicEntity rhs)->lhs.getDateCreated().compareTo(rhs.getDateCreated()));
+    public List<TopicEntity> sortTopicsByDateAsc(List<TopicEntity> list) {
+        List<TopicEntity> result = list;
+        Collections.sort(result, (TopicEntity lhs, TopicEntity rhs)->lhs.getDateCreated().compareTo(rhs.getDateCreated()));
         System.out.println("Sorting topics by date asc.");
+        return result;
     }
 
-    public void sortTopicsByDateDesc() {
-        Collections.sort(topics, (TopicEntity lhs, TopicEntity rhs)->rhs.getDateCreated().compareTo(lhs.getDateCreated()));
+    public List<TopicEntity> sortTopicsByDateDesc(List<TopicEntity> list) {
+        List<TopicEntity> result = list;
+        Collections.sort(result, (TopicEntity lhs, TopicEntity rhs)->rhs.getDateCreated().compareTo(lhs.getDateCreated()));
         System.out.println("Sorting topics by date desc.");
+        return result;
     }
 
-    public List<TopicEntity> searchTopicsWithText(String text) {
+    public List<TopicEntity> searchTopicsWithText(List<TopicEntity> list, String text) {
         List<TopicEntity> result = new ArrayList<>();
+        if(list != null)
+            result = list;
+        ArrayList<TopicEntity> topics = (ArrayList<TopicEntity>) tr.findAll();
         for(TopicEntity topic : topics)
         {
             if(topic.getText().toLowerCase().contains(text.toLowerCase()) || topic.getName().toLowerCase().contains(text.toLowerCase()))
@@ -142,9 +150,9 @@ public class TopicServiceImpl implements TopicServiceInterface {
 
     @Override
     public List<CommentVO> getAllComments(String name) {
-        for(TopicEntity topicEntity : topics)
-            if(topicEntity.getName().equals(name))
-                return topicEntity.getComments();
-        return new ArrayList<>();
+        TopicEntity entity = findByName(tr.findAll(), name);
+        System.out.println(entity.getName());
+        return entity.getComments();
+
     }
 }

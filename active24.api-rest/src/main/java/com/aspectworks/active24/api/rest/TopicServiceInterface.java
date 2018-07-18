@@ -12,6 +12,6 @@ public interface TopicServiceInterface {
     void deleteTopic(@PathVariable("name") String name);
     List<TopicEntity> getTopics(String searchText, String sortBy, String sortOrder);
     void addCommentToTopic(@PathVariable("name") String topicName, CommentVO comment);
-    List<TopicEntity> searchTopicsWithText(@PathVariable("text") String text);
+    List<TopicEntity> searchTopicsWithText(List<TopicEntity> list, String text);
     List<CommentVO> getAllComments(String name);
 }
