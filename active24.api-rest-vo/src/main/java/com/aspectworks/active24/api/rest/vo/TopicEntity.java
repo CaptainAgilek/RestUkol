@@ -16,7 +16,7 @@ public class TopicEntity {
     private String text;
 
     @OneToMany(cascade=CascadeType.ALL)
-    List<CommentVO> comments = new ArrayList<>();
+    private List<CommentVO> comments = new ArrayList<>();
 
     public TopicEntity() {}
 

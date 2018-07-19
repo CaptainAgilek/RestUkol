@@ -8,4 +8,5 @@ import org.springframework.transaction.annotation.Transactional;
 public interface UserRepository extends JpaRepository<UserVO, Long> {
     //Query creation from method names
     UserVO findByUsername(String username);
+    void deleteByUsername(String username);
 }

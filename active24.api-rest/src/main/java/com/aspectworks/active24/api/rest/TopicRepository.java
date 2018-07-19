@@ -11,5 +11,6 @@ import java.util.List;
 public interface TopicRepository extends JpaRepository<TopicEntity,Long> {
     //Query creation from method names
     TopicEntity findByName(String name);
+    void deleteByName(String name);
     List<TopicEntity> findByTextContainingIgnoreCaseOrNameContainingIgnoreCase(String searchText,String sameSearchText, Sort sort);
 }
