@@ -11,13 +11,13 @@ import java.util.*;
 public class TopicServiceImpl implements TopicService {
 
     @Autowired
-    private TopicRepository tr;
+    private TopicRepository topicRepository;
 
     @Override
     public void createTopic(TopicEntity topic) {
-        if(tr.findByName(topic.getName()) == null) {//check if topic with same name already does not exist
+        if(topicRepository.findByName(topic.getName()) == null) {//check if topic with same name already does not exist
             topic.setDate(new Date());
-            tr.save(topic);
+            topicRepository.save(topic);
         }
     }
 
@@ -27,7 +27,7 @@ public class TopicServiceImpl implements TopicService {
      */
     @Override
     public void deleteTopic(String name) {
-         tr.deleteByName(name);
+         topicRepository.deleteByName(name);
          System.out.println("Deleting topic with name: " + name);
     }
 
@@ -45,22 +45,22 @@ public class TopicServiceImpl implements TopicService {
         Sort sort = new Sort(new Sort.Order(direction, sortBy));
         System.out.println("Getting topics");
         if(searchText != null) {
-            return tr.findByTextContainingIgnoreCaseOrNameContainingIgnoreCase(searchText, searchText, sort);//search by text
+            return topicRepository.findByTextContainingIgnoreCaseOrNameContainingIgnoreCase(searchText, searchText, sort);//search by text
         }
-        else return tr.findAll(sort);//get all topics
+        else return topicRepository.findAll(sort);//get all topics
     }
 
     @Override
     public void addCommentToTopic(String topicName, CommentVO comment) {
-        TopicEntity entity = tr.findByName(topicName);
+        TopicEntity entity = topicRepository.findByName(topicName);
         entity.getComments().add(comment);
-        tr.save(entity);
+        topicRepository.save(entity);
         System.out.println("Adding comment to topic with name: " + topicName);
     }
 
     @Override
     public List<CommentVO> getAllComments(String name) {
-        TopicEntity entity = tr.findByName(name);
+        TopicEntity entity = topicRepository.findByName(name);
         System.out.println("Getting comment to topic with name: " + entity.getName());
         return entity.getComments();
     }
