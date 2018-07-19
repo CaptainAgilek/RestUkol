@@ -10,5 +10,4 @@ public interface UserServiceInterface {
     void createUser(@RequestBody UserVO user);
     void deleteUser(@PathVariable("username") String username);
     List<UserVO> getAllUsers();
-
 }

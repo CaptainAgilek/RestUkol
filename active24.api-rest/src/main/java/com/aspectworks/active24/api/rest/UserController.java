@@ -11,8 +11,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
     @Autowired
     UserServiceImpl userService;
+
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createUser(@RequestBody UserVO user){
         userService.createUser(user);
