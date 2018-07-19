@@ -8,24 +8,14 @@ import java.util.Date;
 
 @Entity
 public class CommentVO {
-    private String authorUsername;
-    private String text;
-    private Date createdDate;
-
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private long id;
+    private String authorUsername;
+    private String text;
 
     public String getAuthorUsername() {
         return authorUsername;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
     }
 
     public void setAuthorUsername(String authorUsername) {

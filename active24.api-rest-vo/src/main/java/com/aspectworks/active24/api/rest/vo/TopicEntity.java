@@ -7,22 +7,23 @@ import java.util.List;
 
 @Entity
 public class TopicEntity {
-    private String name;
-    private Date dateCreated;
-    private String text;
-    @OneToMany(cascade=CascadeType.ALL)
-    List<CommentVO> comments = new ArrayList<>();
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private long id;
+    private String name;
+    private Date date;
+    private String text;
 
-    public TopicEntity() {
-    }
+    @OneToMany(cascade=CascadeType.ALL)
+    List<CommentVO> comments = new ArrayList<>();
+
+    public TopicEntity() {}
+
     public TopicEntity(TopicVO topic) {
-    this.name = topic.getName();
-    this.dateCreated = topic.getDateCreated();
-    this.text = topic.getText();
+        this.name = topic.getName();
+        this.date = topic.getDate();
+        this.text = topic.getText();
     }
 
     public String getName() {
@@ -33,12 +34,12 @@ public class TopicEntity {
         this.name = name;
     }
 
-    public Date getDateCreated() {
-        return dateCreated;
+    public Date getDate() {
+        return date;
     }
 
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
+    public void setDate(Date dateCreated) {
+        this.date = dateCreated;
     }
 
     public String getText() {

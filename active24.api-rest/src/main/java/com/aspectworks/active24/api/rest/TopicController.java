@@ -13,13 +13,16 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/topics")
 public class TopicController {
+
     @Autowired
     TopicServiceImpl topicService;
+
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void createTopic(@RequestBody TopicVO topic){
         TopicEntity topicEntity = new TopicEntity(topic);
         topicService.createTopic(topicEntity);
     }
+
     @RequestMapping(method = RequestMethod.DELETE, value = "/{name}")
     public void deleteTopic(@PathVariable("name") String name){
         topicService.deleteTopic(name);
@@ -34,6 +37,7 @@ public class TopicController {
     public void addCommentToTopic(@PathVariable("name") String topicName, @RequestBody CommentVO comment) {
          topicService.addCommentToTopic(topicName, comment);
     }
+
     @RequestMapping( value = "/{name}/comments", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<CommentVO> getAllComments(@PathVariable("name") String name) {
         return topicService.getAllComments(name);
