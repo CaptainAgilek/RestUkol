@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-public interface UserServiceInterface {
-    void createUser(@RequestBody UserVO user);
-    void deleteUser(@PathVariable("username") String username);
+public interface UserService {
+    void createUser(UserVO user);
+    void deleteUser(String username);
     List<UserVO> getAllUsers();
 }

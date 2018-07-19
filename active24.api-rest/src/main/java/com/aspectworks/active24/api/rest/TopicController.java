@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class TopicController {
 
     @Autowired
-    TopicServiceImpl topicService;
+    private TopicService topicService;
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void createTopic(@RequestBody TopicVO topic){

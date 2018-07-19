@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-public interface TopicServiceInterface {
-    void createTopic(@RequestBody TopicEntity topic);
-    void deleteTopic(@PathVariable("name") String name);
+public interface TopicService {
+    void createTopic(TopicEntity topic);
+    void deleteTopic(String name);
     List<TopicEntity> getTopics(String searchText, String sortBy, String sortOrder);
-    void addCommentToTopic(@PathVariable("name") String topicName, CommentVO comment);
-    List<CommentVO> getAllComments(@PathVariable("name") String name);
+    void addCommentToTopic(String topicName, CommentVO comment);
+    List<CommentVO> getAllComments(String name);
 }

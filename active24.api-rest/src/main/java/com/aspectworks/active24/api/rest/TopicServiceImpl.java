@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 @Service
-public class TopicServiceImpl implements TopicServiceInterface {
+public class TopicServiceImpl implements TopicService {
 
     @Autowired
     private TopicRepository tr;
@@ -21,6 +21,10 @@ public class TopicServiceImpl implements TopicServiceInterface {
         }
     }
 
+    /**
+     * A co pouzit deleteByName(String name)? usetris tak jednu operaci do databaze
+     * @param name
+     */
     @Override
     public void deleteTopic(String name) {
          tr.delete(tr.findByName(name));
