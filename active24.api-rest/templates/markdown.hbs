@@ -1,0 +1,105 @@
+#{{#info}}{{title}}
+
+
+## {{join schemes " | "}}://{{host}}{{basePath}}
+
+
+{{description}}
+
+{{#contact}}
+[**Contact the developer**](mailto:{{email}})
+{{/contact}}
+
+**Version** {{version}}
+
+[**Terms of Service**]({{termsOfService}})
+
+{{#license}}[**{{name}}**]({{url}}){{/license}}
+
+{{/info}}
+
+{{#if consumes}}**Consumes:** {{join consumes ", "}}{{/if}}
+
+{{#if produces}}**Produces:** {{join produces ", "}}{{/if}}
+
+{{#if securityDefinitions}}
+# Security Definitions
+{{/if}}
+{{> security}}
+
+# APIs
+{{#each paths}}
+{{#this}}
+##<a name="{{@key}}" href="#{{@key}}">{{@key}}</a>
+{{#get}}
+###<a name="{{@key}}/GET" href="#{{@key}}/GET">GET</a>
+{{> operation}}
+{{/get}}
+
+{{#put}}
+###<a name="{{@key}}/PUT" href="#{{@key}}/PUT">PUT</a>
+{{> operation}}
+{{/put}}
+
+{{#post}}
+###<a name="{{@key}}/POST" href="#{{@key}}/POST">POST</a>
+{{> operation}}
+{{/post}}
+
+{{#delete}}
+###<a name="{{@key}}/DELETE" href="#{{@key}}/DELETE">DELETE</a>
+{{> operation}}
+{{/delete}}
+
+{{#option}}
+###<a name="{{@key}}/OPTION" href="#{{@key}}/OPTION">OPTION</a>
+{{> operation}}
+{{/option}}
+
+{{#patch}}
+###<a name="{{@key}}/PATCH" href="#{{@key}}/PATCH">PATCH</a>
+{{> operation}}
+{{/patch}}
+
+{{#head}}
+###<a name="{{@key}}/HEAD" href="#{{@key}}/HEAD">HEAD</a>
+{{> operation}}
+{{/head}}
+
+{{/this}}
+{{/each}}
+
+# <a name="/definitions" href="#/definitions">Definitions</a>
+{{#each definitions}}
+## <a name="/definitions/{{@key}}" href="#/definitions/{{@key}}">{{@key}}</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+        <th>example</th>
+    </tr>
+    {{#each this.properties}}
+        <tr>
+            <td>{{@key}}</td>
+            <td>
+                {{#ifeq type "array"}}
+                {{#items.$ref}}
+                    {{type}}[<a href="{{items.$ref}}">{{basename items.$ref}}</a>]
+                {{/items.$ref}}
+                {{^items.$ref}}{{type}}[{{items.type}}]{{/items.$ref}}
+                {{else}}
+                    {{#$ref}}<a href="{{$ref}}">{{basename $ref}}</a>{{/$ref}}
+                    {{^$ref}}{{type}}{{#format}} ({{format}}){{/format}}{{/$ref}}
+                {{/ifeq}}
+            </td>
+            <td>{{#required}}required{{/required}}{{^required}}optional{{/required}}</td>
+            <td>{{#description}}{{{description}}}{{/description}}{{^description}}-{{/description}}</td>
+            <td>{{example}}</td>
+        </tr>
+    {{/each}}
+</table>
+{{/each}}
+
