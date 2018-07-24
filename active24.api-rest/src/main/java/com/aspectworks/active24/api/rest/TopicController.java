@@ -8,7 +8,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +41,7 @@ public class TopicController {
     }
 
     @ApiOperation(value = "Returns specified topics.")
-    @RequestMapping(method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<TopicVO> getTopics(@ApiParam(value = "Text you want to search.") @RequestParam(value = "searchText", required = false) String searchText, @ApiParam(value = "Specifies whether you want to sort by name or date.") @RequestParam(value ="sortBy", required = false) String sortBy, @ApiParam(value = "Specifies ascending or descending order for sort.") @RequestParam(value = "sortOrder", required = false) String sortOrder) {
         return topicService.getTopics(searchText, sortBy, sortOrder).stream().map(topic->new TopicVO(topic)).collect(Collectors.toList());
     }

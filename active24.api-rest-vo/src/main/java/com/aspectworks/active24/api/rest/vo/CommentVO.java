@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import java.util.Date;
 
 @Entity
-@ApiModel(description="Comment object.")
+@ApiModel(value = "CommentVO", description="Comment object.")
 public class CommentVO {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id

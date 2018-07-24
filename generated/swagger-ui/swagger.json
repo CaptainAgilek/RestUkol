@@ -27,7 +27,7 @@
         "summary" : "Returns specified topics.",
         "description" : "",
         "operationId" : "getTopics",
-        "produces" : [ "application/xml", "application/json" ],
+        "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "searchText",
           "in" : "query",
